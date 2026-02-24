@@ -26,9 +26,9 @@ import { generateBossChallenge, getMaranFeedback } from './services/geminiServic
 
 // --- Components ---
 
-const MathMaranAvatar = ({ size = "md" }: { size?: "sm" | "md" | "lg" }) => {
+const MathMaranAvatar = ({ size = "md", hideLabel = false }: { size?: "sm" | "md" | "lg", hideLabel?: boolean }) => {
   const sizes = {
-    sm: "w-16 h-16 text-2xl",
+    sm: "w-12 h-12 text-xl",
     md: "w-24 h-24 md:w-32 md:h-32 text-4xl md:text-5xl",
     lg: "w-32 h-32 md:w-48 md:h-48 text-6xl md:text-7xl"
   };
@@ -36,15 +36,17 @@ const MathMaranAvatar = ({ size = "md" }: { size?: "sm" | "md" | "lg" }) => {
     <div className={`relative ${sizes[size]} flex-shrink-0 group`}>
       <div className="absolute inset-0 bg-[#FFD700] rounded-full shadow-xl shadow-yellow-500/20 group-hover:scale-105 transition-transform duration-500 overflow-hidden border-4 border-white/50">
         <img 
-          src="https://storage.googleapis.com/generativeai-downloads/images/sxs-upload/Gemini_Generated_Image_4gm5f34gm5f34gm5.png" 
+          src="https://storage.googleapis.com/generativeai-downloads/images/sxs-upload/math_marn_v2.png" 
           alt="Math-Maran" 
           className="w-full h-full object-cover"
           referrerPolicy="no-referrer"
         />
       </div>
-      <div className="absolute -bottom-1 -right-1 bg-white/90 backdrop-blur-md px-2 py-0.5 rounded-lg border border-white/50 text-[10px] font-extrabold uppercase tracking-tighter text-slate-800 shadow-sm z-10">
-        MARAN
-      </div>
+      {!hideLabel && (
+        <div className="absolute -bottom-1 -right-1 bg-white/90 backdrop-blur-md px-2 py-0.5 rounded-lg border border-white/50 text-[10px] font-extrabold uppercase tracking-tighter text-slate-800 shadow-sm z-10">
+          MARAN
+        </div>
+      )}
     </div>
   );
 };
@@ -216,7 +218,7 @@ export default function App() {
           <div className="mb-8 flex justify-center">
             <div className="w-28 h-28 bg-[#FFD700] rounded-full flex items-center justify-center text-6xl shadow-2xl shadow-yellow-500/40 overflow-hidden border-4 border-white/20">
               <img 
-                src="https://storage.googleapis.com/generativeai-downloads/images/sxs-upload/Gemini_Generated_Image_4gm5f34gm5f34gm5.png" 
+                src="https://storage.googleapis.com/generativeai-downloads/images/sxs-upload/math_marn_v2.png" 
                 alt="Maran" 
                 className="w-full h-full object-cover"
                 referrerPolicy="no-referrer"
@@ -254,14 +256,7 @@ export default function App() {
       <header className="glass sticky top-0 z-50 px-6 py-4 border-b border-white/20">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-4 cursor-pointer group" onClick={handleLogoClick}>
-            <div className="w-12 h-12 bg-[#FFD700] rounded-2xl flex items-center justify-center text-2xl shadow-lg shadow-yellow-500/20 group-hover:rotate-12 transition-transform overflow-hidden">
-              <img 
-                src="https://storage.googleapis.com/generativeai-downloads/images/sxs-upload/Gemini_Generated_Image_4gm5f34gm5f34gm5.png" 
-                alt="Maran" 
-                className="w-full h-full object-cover"
-                referrerPolicy="no-referrer"
-              />
-            </div>
+            <MathMaranAvatar size="sm" hideLabel />
             <h1 className="font-extrabold text-2xl tracking-tighter hidden sm:block">Math-Maran</h1>
           </div>
           
@@ -306,7 +301,7 @@ export default function App() {
                   const isLocked = trick.id > (user?.currentLevel || 1);
                   
                   // Assign bento classes based on index
-                  let bentoClass = "glass hover-lift rounded-[2.5rem] p-8 flex flex-col justify-between relative overflow-hidden group";
+                  let bentoClass = "glass hover-lift rounded-[2.5rem] p-8 flex flex-col relative overflow-hidden group";
                   if (index === 0) bentoClass += " bento-item-large";
                   else if (index === 3) bentoClass += " bento-item-wide";
                   else if (index === 6) bentoClass += " bento-item-tall";
@@ -324,16 +319,18 @@ export default function App() {
                         {trick.badge.icon}
                       </div>
 
-                      <div className="flex justify-between items-start relative z-10">
+                      <div className="flex justify-between items-center relative z-10 mb-8">
                         <div className={`w-14 h-14 rounded-2xl flex items-center justify-center font-black text-2xl ${isCompleted ? 'bg-green-500 text-white' : 'bg-[#FFD700] text-slate-900'} shadow-lg`}>
                           {trick.id}
                         </div>
-                        {isCompleted && <div className="bg-green-100 text-green-600 p-2 rounded-xl"><CheckCircle2 className="w-6 h-6" /></div>}
-                        {isLocked && <div className="bg-slate-100 text-slate-400 p-2 rounded-xl"><Lock className="w-6 h-6" /></div>}
+                        <div className="flex gap-2">
+                          {isCompleted && <div className="bg-green-100 text-green-600 p-2 rounded-xl"><CheckCircle2 className="w-6 h-6" /></div>}
+                          {isLocked && <div className="bg-slate-100 text-slate-400 p-2 rounded-xl"><Lock className="w-6 h-6" /></div>}
+                        </div>
                       </div>
                       
-                      <div className="relative z-10">
-                        <h3 className="text-2xl font-extrabold mb-2 tracking-tight">{trick.title}</h3>
+                      <div className="relative z-10 mt-auto">
+                        <h3 className="text-2xl font-extrabold mb-2 tracking-tight leading-tight">{trick.title}</h3>
                         <p className="text-slate-500 font-medium text-sm mb-6">{trick.secretCode}</p>
                         
                         <button 
@@ -343,7 +340,7 @@ export default function App() {
                             isLocked 
                               ? 'bg-slate-100 text-slate-400 cursor-not-allowed' 
                               : isCompleted 
-                                ? 'bg-white border border-slate-200 hover:bg-slate-50' 
+                                ? 'bg-white border border-slate-200 hover:bg-slate-50 shadow-sm' 
                                 : 'btn-blue'
                           }`}
                         >
@@ -376,8 +373,10 @@ export default function App() {
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
                 <div className="lg:col-span-1 space-y-8">
                   <div className="glass p-10 text-center rounded-[3rem]">
-                    <div className="w-36 h-36 bg-white rounded-[2.5rem] shadow-xl mx-auto mb-6 flex items-center justify-center text-7xl border border-white/50">
-                      👦
+                    <div className="w-36 h-36 bg-white rounded-full shadow-xl mx-auto mb-6 flex items-center justify-center text-7xl border-4 border-white/50 overflow-hidden">
+                      <div className="bg-blue-50 w-full h-full flex items-center justify-center">
+                        👦
+                      </div>
                     </div>
                     <h2 className="text-4xl font-extrabold mb-1 tracking-tighter">{user.name}</h2>
                     <p className="text-slate-500 font-bold uppercase tracking-widest text-xs mb-8">Level {user.currentLevel} Apprentice</p>
@@ -633,7 +632,7 @@ export default function App() {
                     <div className="flex items-center gap-6 glass p-8 rounded-[3rem]">
                       <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-[#FFD700] flex-shrink-0">
                         <img 
-                          src="https://storage.googleapis.com/generativeai-downloads/images/sxs-upload/Gemini_Generated_Image_4gm5f34gm5f34gm5.png" 
+                          src="https://storage.googleapis.com/generativeai-downloads/images/sxs-upload/math_marn_v2.png" 
                           alt="Maran" 
                           className="w-full h-full object-cover"
                           referrerPolicy="no-referrer"
@@ -682,7 +681,7 @@ export default function App() {
           <div className="glass-dark p-12 rounded-[4rem] text-center space-y-6 max-w-sm">
             <div className="w-32 h-32 mx-auto rounded-full overflow-hidden border-4 border-[#FFD700] animate-bounce">
               <img 
-                src="https://storage.googleapis.com/generativeai-downloads/images/sxs-upload/Gemini_Generated_Image_4gm5f34gm5f34gm5.png" 
+                src="https://storage.googleapis.com/generativeai-downloads/images/sxs-upload/math_marn_v2.png" 
                 alt="Maran" 
                 className="w-full h-full object-cover"
                 referrerPolicy="no-referrer"
@@ -705,7 +704,7 @@ export default function App() {
             
             <div className="w-48 h-48 mx-auto rounded-full overflow-hidden border-8 border-[#FFD700] shadow-2xl shadow-yellow-500/50">
               <img 
-                src="https://storage.googleapis.com/generativeai-downloads/images/sxs-upload/Gemini_Generated_Image_4gm5f34gm5f34gm5.png" 
+                src="https://storage.googleapis.com/generativeai-downloads/images/sxs-upload/math_marn_v2.png" 
                 alt="Maran" 
                 className="w-full h-full object-cover"
                 referrerPolicy="no-referrer"

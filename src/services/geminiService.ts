@@ -44,7 +44,7 @@ export async function getMaranFeedback(isCorrect: boolean, userName: string) {
   A student named ${userName} just ${isCorrect ? 'correctly solved' : 'failed to solve'} a math challenge.
   
   Give a short, witty feedback in Tanglish (English + Tamil sprinkles). 
-  If correct: Be super excited, use "Super-pa!", "Correct-u!", "Semme!".
+  If correct: Be super excited, use "Super-pa!", "Correct-u!", "Semma!", "Vera-Level".
   If wrong: Be encouraging, say "Close-u!", "Try the trick again, nanba!", "Don't worry-u!".
   
   Keep it under 20 words.`;
